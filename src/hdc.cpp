@@ -2,6 +2,7 @@
 
 #include <boost/algorithm/string_regex.hpp>
 #include <boost/regex.hpp>
+#include <complex>
 #include <cstdlib>
 #include <limits>
 #include <dlfcn.h>
@@ -1175,6 +1176,8 @@ const char* HDC::get_type_str() const
             return "string";
         case HDC_BOOL:
             return "bool";
+        case HDC_COMPLEX:
+            return "complex128";
         case HDC_ERROR:
             return "error";
         default:
@@ -1455,6 +1458,11 @@ HDC HDC::make_scalar(bool data)
     return HDC((void*)&data, HDC_BOOL);
 }
 
+HDC HDC::make_scalar(std::complex<double> data)
+{
+    return HDC((void*)&data, HDC_COMPLEX);
+}
+
 HDC HDC::make_scalar(int8_t data)
 {
     return HDC((void*)&data, HDC_INT8);
@@ -1511,6 +1519,13 @@ HDC HDC::make_external(double* data)
 }
 
 HDC HDC::make_external(bool* data)
+{
+    HDC h;
+    h.set_external(data);
+    return h;
+}
+
+HDC HDC::make_external(std::complex<double>* data)
 {
     HDC h;
     h.set_external(data);
@@ -1863,6 +1878,8 @@ bool HDC::equals(const HDC& other) const
             return array_equals(as<double>(), other.as<double>(), size);
         case HDC_BOOL:
             return array_equals(as<bool>(), other.as<bool>(), size);
+        case HDC_COMPLEX:
+            return array_equals(as<std::complex<double>>(), other.as<std::complex<double>>(), size);
         case HDC_STRING:
             return as_string() == other.as_string();
         default:

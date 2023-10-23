@@ -6,6 +6,7 @@
 #include <sstream>
 #include <iomanip>
 #include <tuple>
+#include <complex>
 // add uuid generation
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
@@ -69,6 +70,7 @@ hdc_type_t to_typeid(char a);
 hdc_type_t to_typeid(std::string a);
 hdc_type_t to_typeid(char* a);
 hdc_type_t to_typeid(bool a);
+hdc_type_t to_typeid(std::complex<double> a);
 #ifndef __APPLE__
 hdc_type_t to_typeid(std::_Bit_reference a); //workaround for bool
 #else

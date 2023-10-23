@@ -422,6 +422,27 @@ void hdc_set_double_scalar(hdc_t tree, const char* path, double data);
 void hdc_set_double(hdc_t tree, const char* path, int rank, size_t* shape, void* data, hdc_flags_t _flags);
 
 /**
+ * @brief Sets double complex scalar data under the given path and tree
+ *
+ * @param tree p_tree: HDC node
+ * @param path p_path: Path string
+ * @return const char*
+ */
+void hdc_set_complex_scalar(hdc_t tree, const char* path, double _Complex data);
+
+/**
+ * @brief Sets double complex array data under the given path and tree
+ *
+ * @param tree p_tree: HDC node
+ * @param path p_path: Path string
+ * @param rank p_rank: Array rank
+ * @param shape p_shape: Array shape
+ * @param data p_data: data encapsulated into hdc_data_t struct.
+ * @param _flags p__flags: Additional HDC flags
+ */
+void hdc_set_complex(hdc_t tree, const char* path, int rank, size_t* shape, void* data, hdc_flags_t _flags);
+
+/**
  * @brief Sets string data under the given path and tree
  *
  * @param tree p_tree: HDC node
@@ -497,6 +518,15 @@ int64_t* hdc_as_int64_array(hdc_t tree, const char* path);
 double* hdc_as_double_array(hdc_t tree, const char* path);
 
 /**
+ * @brief Returns double array data from the given HDC node under the given path
+ *
+ * @param tree p_tree: HDC node
+ * @param path p_path: Path string
+ * @return double _Complex*
+ */
+double _Complex* hdc_as_complex_array(hdc_t tree, const char* path);
+
+/**
  * @brief Returns float array data from the given HDC node under the given path
  *
  * @param tree p_tree: HDC node
@@ -522,6 +552,15 @@ void* hdc_as_voidptr(hdc_t tree, const char* path);
  * @return double
  */
 double  hdc_as_double_scalar(hdc_t tree, const char* path);
+
+/**
+ * @brief Returns double scalar data from the given HDC node under the given path
+ *
+ * @param tree p_tree: HDC node
+ * @param path p_path: Path string
+ * @return double _Complex
+ */
+double _Complex hdc_as_complex_scalar(hdc_t tree, const char* path);
 
 /**
  * @brief Returns float scalar data from the given HDC node under the given path

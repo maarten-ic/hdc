@@ -7,6 +7,7 @@
 #include "andres/marray.hxx"
 
 // some other stuff -- to be reduced later
+#include <complex>
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
@@ -825,8 +826,8 @@ public:
      *
      * @param shape p_shape: Shape of the data
      * @param data p_data: Pointer to data
-     * @param kind p_kind: Type of the data: "i" integer, "u" unsigned int, "f" float/double, "b" bool
-     * @param itemsize p_itemsize: Byte size of a data item - eg. 1 (u)int8/bool/char, 2 (u)int16, 4 (u)int32/float, 8 (u)int64/double
+     * @param kind p_kind: Type of the data: "i" integer, "u" unsigned int, "f" float/double, "b" bool, "c" complex
+     * @param itemsize p_itemsize: Byte size of a data item - eg. 1 (u)int8/bool/char, 2 (u)int16, 4 (u)int32/float, 8 (u)int64/double, 16 complex
      * @param flags p_flags: Flags the node should have (e.g. HDCFortranOrder)
      */
     void
@@ -837,8 +838,8 @@ public:
      *
      * @param shape p_shape: Shape of the data
      * @param data p_data: Pointer to data
-     * @param kind p_kind: Type of the data: "i" integer, "u" unsigned int, "f" float/double, "b" bool
-     * @param itemsize p_itemsize: Byte size of a data item - eg. 1 (u)int8/bool/char, 2 (u)int16, 4 (u)int32/float, 8 (u)int64/double
+     * @param kind p_kind: Type of the data: "i" integer, "u" unsigned int, "f" float/double, "b" bool, "c" complex
+     * @param itemsize p_itemsize: Byte size of a data item - eg. 1 (u)int8/bool/char, 2 (u)int16, 4 (u)int32/float, 8 (u)int64/double, 16 complex
      * @param flags p_flags: Flags the node should have (e.g. HDCFortranOrder)
      */
     void
@@ -1372,6 +1373,14 @@ public:
     /**
     * @brief Creates scalar HDC object from external scalar* data
     *
+    * @param* data p_data: complex scalar to be saved
+    * @return HDC
+    */
+    static HDC make_external(std::complex<double>* data);
+
+    /**
+    * @brief Creates scalar HDC object from external scalar* data
+    *
     * @param* data p_data: int8_t scalar to be saved
     * @return HDC
     */
@@ -1455,6 +1464,14 @@ public:
     * @return HDC
     */
     static HDC make_scalar(bool data);
+
+    /**
+    * @brief Creates scalar HDC object
+    *
+    * @param data p_data: complex scalar to be saved
+    * @return hdc_data_t
+    */
+    static HDC make_scalar(std::complex<double> data);
 
     /**
     * @brief Creates scalar HDC object

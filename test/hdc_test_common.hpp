@@ -36,7 +36,30 @@ bool arrcmp(T* arr1, U* arr2, size_t n_elem)
     return true;
 }
 
-#define ALL_NUMERIC_TYPES int8_t, uint8_t, int16_t, uint16_t, int32_t, uint32_t, int64_t, uint64_t, float, double
+namespace std {
+
+bool operator==(int8_t a, std::complex<double> b) { return std::complex<double>(a) == b; }
+bool operator==(std::complex<double> b, int8_t a) { return std::complex<double>(a) == b; }
+bool operator==(uint8_t a, std::complex<double> b) { return std::complex<double>(a) == b; }
+bool operator==(std::complex<double> b, uint8_t a) { return std::complex<double>(a) == b; }
+bool operator==(int16_t a, std::complex<double> b) { return std::complex<double>(a) == b; }
+bool operator==(std::complex<double> b, int16_t a) { return std::complex<double>(a) == b; }
+bool operator==(uint16_t a, std::complex<double> b) { return std::complex<double>(a) == b; }
+bool operator==(std::complex<double> b, uint16_t a) { return std::complex<double>(a) == b; }
+bool operator==(int32_t a, std::complex<double> b) { return std::complex<double>(a) == b; }
+bool operator==(std::complex<double> b, int32_t a) { return std::complex<double>(a) == b; }
+bool operator==(uint32_t a, std::complex<double> b) { return std::complex<double>(a) == b; }
+bool operator==(std::complex<double> b, uint32_t a) { return std::complex<double>(a) == b; }
+bool operator==(int64_t a, std::complex<double> b) { return std::complex<double>(a) == b; }
+bool operator==(std::complex<double> b, int64_t a) { return std::complex<double>(a) == b; }
+bool operator==(uint64_t a, std::complex<double> b) { return std::complex<double>(a) == b; }
+bool operator==(std::complex<double> b, uint64_t a) { return std::complex<double>(a) == b; }
+bool operator==(float a, std::complex<double> b) { return std::complex<double>(a) == b; }
+bool operator==(std::complex<double> b, float a) { return std::complex<double>(a) == b; }
+
+}  // namespace std
+
+#define ALL_NUMERIC_TYPES int8_t, uint8_t, int16_t, uint16_t, int32_t, uint32_t, int64_t, uint64_t, float, double, std::complex<double>
 
 #define PREPARE_TREE()                                                                              \
     std::vector<size_t> shape = {4};                                                                \

@@ -328,6 +328,13 @@ TEMPLATE_TEST_CASE("as_vector_double", "[HDC]", ALL_NUMERIC_TYPES) {
     CHECK(std::equal(array_in.begin(),array_in.end(),vector_out.begin()));
 }
 
+TEMPLATE_TEST_CASE("as_vector_complex", "[HDC]", ALL_NUMERIC_TYPES) {
+    std::vector<std::complex<double>> array_in = { {7, 1}, {2, 1}, {3, 1}, {4, 1} };
+    HDC h(array_in);
+    // casting from std::complex is not allowed
+    CHECK_THROWS(h.as_vector<TestType>());
+}
+
 TEST_CASE("as_vector_unknown", "[HDC]") {
     HDC h,n;
     h.add_child("aaa",n);

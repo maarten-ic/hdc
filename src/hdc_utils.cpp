@@ -107,6 +107,8 @@ size_t hdc_sizeof(hdc_type_t type)
             return sizeof(double);
         case HDC_BOOL:
             return sizeof(bool);
+        case HDC_COMPLEX:
+            return sizeof(std::complex<double>);
         default:
             throw HDCException("hdc_sizeof(): Wrong type " + std::to_string(type) + "\n");
     }
@@ -133,6 +135,7 @@ bool hdc_is_numeric (hdc_type_t type)
         case HDC_FLOAT:
         case HDC_DOUBLE:
         case HDC_BOOL:
+        case HDC_COMPLEX:
             return true;
         default:
             throw HDCException("Unknown type " + std::to_string(type));
@@ -159,6 +162,7 @@ std::string hdc_type_str(hdc_type_t type)
         case HDC_FLOAT: return "HDC_FLOAT";
         case HDC_DOUBLE: return "HDC_DOUBLE";
         case HDC_BOOL: return "HDC_BOOL";
+        case HDC_COMPLEX: return "HDC_COMPLEX";
         default:
             throw HDCException("Unknown type " + std::to_string(type));
     }
@@ -214,6 +218,9 @@ hdc_type_t to_typeid(char const* a UNUSED)
 
 hdc_type_t to_typeid(bool a UNUSED)
 { return HDC_BOOL; }
+
+hdc_type_t to_typeid(std::complex<double> a UNUSED)
+{ return HDC_COMPLEX; }
 
 #ifndef __APPLE__
 hdc_type_t to_typeid(std::_Bit_reference a UNUSED) {return HDC_BOOL;}
@@ -306,6 +313,15 @@ hdc_type_t decode_numpy_type(char kind, int8_t itemsize)
             break;
         case 'b':
             type = HDC_BOOL;
+            break;
+        case 'c':
+            switch (itemsize) {
+                case 16:
+                    type = HDC_COMPLEX;
+                    break;
+                default:
+                    throw HDCException("set_data_Py: bad itemsize");
+            }
             break;
         default:
             throw HDCException("set_data_Py: bad kind");
@@ -410,6 +426,10 @@ void transpose_buffer(char* new_buffer, char* buffer, int8_t rank, std::vector<s
         }
         case (HDC_BOOL): {
             transpose_buf<bool>(new_buffer, buffer, rank, shape, fortranOrder);
+            break;
+        }
+        case (HDC_COMPLEX): {
+            transpose_buf<std::complex<double>>(new_buffer, buffer, rank, shape, fortranOrder);
             break;
         }
         case (HDC_STRUCT):

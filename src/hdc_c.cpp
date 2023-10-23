@@ -168,6 +168,12 @@ double* hdc_as_double_array(hdc_t tree, const char* path)
     return HDC(tree).get(path).as<double>();
 }
 
+double _Complex* hdc_as_complex_array(hdc_t tree, const char* path)
+{
+    auto value = HDC(tree).get(path).as<std::complex<double>>();
+    return reinterpret_cast<double _Complex*>(value);
+}
+
 
 float* hdc_as_float_array(hdc_t tree, const char* path)
 {
@@ -211,6 +217,20 @@ void hdc_set_double_scalar(hdc_t tree, const char* path, double data)
     return;
 }
 
+void hdc_set_complex(hdc_t tree, const char* path, int rank, size_t* shape_in, void* data, hdc_flags_t _flags)
+{
+    std::vector<size_t> shape(shape_in, shape_in+rank);
+    HDC(tree).get_or_create(path).set_data_c(shape, data, HDC_COMPLEX, _flags);
+    return;
+}
+
+void hdc_set_complex_scalar(hdc_t tree, const char* path, double _Complex data)
+{
+    HDC(tree).get_or_create(path).set_data(*reinterpret_cast<std::complex<double>*>(&data));
+    return;
+}
+
+
 void hdc_set_float(hdc_t tree, const char* path, int rank, size_t* shape_in, void* data,
                         hdc_flags_t _flags UNUSED)
 {
@@ -251,6 +271,12 @@ const char* hdc_as_string(hdc_t tree, const char* path)
 double hdc_as_double_scalar(hdc_t tree, const char* path)
 {
     return (HDC(tree).get(path).as<double>())[0];
+}
+
+double _Complex hdc_as_complex_scalar(hdc_t tree, const char* path)
+{
+    auto value = HDC(tree).get(path).as<std::complex<double>>();
+    return reinterpret_cast<double _Complex*>(value)[0];
 }
 
 float hdc_as_float_scalar(hdc_t tree, const char* path)

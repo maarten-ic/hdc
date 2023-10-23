@@ -142,6 +142,8 @@ hdc_type_t hdf5_type_to_hdc_type(hid_t hdf5_dtype_id, const std::string& ref_pat
         res = HDC_DOUBLE;
     } else if (H5Tequal(hdf5_dtype_id, H5T_C_S1)) {
         res = HDC_STRING;
+    } else if (H5Tget_class(hdf5_dtype_id) == H5T_class_t::H5T_COMPOUND){
+        res = HDC_COMPLEX;
     } else if (H5Tequal(hdf5_dtype_id, H5T_ENUM)) {
         //TODO: Here it can be probably more things.
         res = HDC_BOOL;
@@ -409,7 +411,7 @@ void hdf5_read(const std::string& file_path, const std::string& hdf5_path, HDC& 
 
 const char* ref_group_name = "__hdc";
 
-H5::PredType HDCtype2HDF5(hdc_type_t t)
+H5::DataType HDCtype2HDF5(hdc_type_t t)
 {
     switch (t) {
         case HDC_STRUCT:
@@ -437,6 +439,13 @@ H5::PredType HDCtype2HDF5(hdc_type_t t)
             return H5::PredType::NATIVE_FLOAT;
         case HDC_DOUBLE:
             return H5::PredType::NATIVE_DOUBLE;
+        case HDC_COMPLEX:
+        {
+            auto dtype = H5::CompType(2*sizeof(double));
+            dtype.insertMember("real", 0, H5::PredType::NATIVE_DOUBLE);
+            dtype.insertMember("imaginary", sizeof(double), H5::PredType::NATIVE_DOUBLE);
+            return dtype;
+        }
         case HDC_STRING:
             return H5::PredType::C_S1;
         case HDC_EMPTY:
