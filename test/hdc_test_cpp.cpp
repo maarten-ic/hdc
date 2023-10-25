@@ -475,6 +475,8 @@ TEST_CASE("BracketOperatorsOthers", "[HDC]")
 TEST_CASE("JsonComplete", "[HDC]")
 {
     PREPARE_TREE()
+    // delete complex data, not supported by the JSON serializer
+    tree["aaa/bbb/complex"].set_data(1.0);
     // create temporary file name
     auto fname = make_tmp_name("txt");
     auto fname2 = make_tmp_name("txt");
@@ -530,6 +532,8 @@ TEST_CASE("JsonComplete", "[HDC]")
 TEST_CASE("Copy", "[HDC]")
 {
     PREPARE_TREE()
+    // delete complex data, not supported by the JSON serializer
+    tree["aaa/bbb/complex"].set_data(1.0);
     HDC _copy = tree.copy();
     auto tree_dump = tree.serialize("json");
     auto copy_dump = _copy.serialize("json");

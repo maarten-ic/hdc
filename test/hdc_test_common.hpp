@@ -74,6 +74,7 @@ bool operator==(std::complex<double> b, float a) { return std::complex<double>(a
     uint64_t data_uint64[] = {70000000,10000000,20000000,300000000};                                \
     float data_float[] = {0.0,1000.0,1.0e-20,1.0e20};                                               \
     bool data_bool[] = {false,true,false,true};                                                     \
+    std::complex<double> data_complex[] = {{1,0}, {0, 1}, {1.141, -1.141}, {3.141, 2.718}};         \
     HDC tree;                                                                                       \
     HDC scalar;                                                                                     \
     scalar.set_data(333.333);                                                                       \
@@ -90,6 +91,7 @@ bool operator==(std::complex<double> b, float a) { return std::complex<double>(a
     tree["aaa/bbb/uint32"].set_data<uint32_t>(shape,data_uint32);                                   \
     tree["aaa/bbb/uint64"].set_data<uint64_t>(shape,data_uint64);                                   \
     tree["aaa/bbb/bool"].set_data<bool>(shape,data_bool);                                           \
+    tree["aaa/bbb/complex"].set_data<std::complex<double>>(shape,data_complex);                     \
     HDC ch;                                                                                         \
     tree.add_child("aaa/bbb/empty", ch);                                                            \
     HDC list;                                                                                       \
